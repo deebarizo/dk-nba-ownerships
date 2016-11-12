@@ -19,7 +19,7 @@ chrome.runtime.onConnect.addListener(function(port) {
                 var showLineupsAfter = items.showLineupsAfter;
                 showLineupsAfter = new Date(Date.parse('2016/01/01 '+showLineupsAfter));
 
-                var lineupBuyIns = items.lineupBuyIns;
+                var lineupBuyIn = items.lineupBuyIns[0];
 
                 var selectorForLineupsToShow = getSelectorForLineupsToShow(items.lineupsToShow);
 
@@ -59,6 +59,7 @@ chrome.runtime.onConnect.addListener(function(port) {
                 });
 
                 console.log(lineups);
+                console.log(players);
 
                 lineups.sort(function(a,b) {
 
@@ -67,14 +68,14 @@ chrome.runtime.onConnect.addListener(function(port) {
 
                 var dailyBuyIn = items.dailyBuyInTarget;
 
-                addPercentagesToPlayers(players, lineups, dailyBuyIn);
+                addPercentagesToPlayers(players, lineups, dailyBuyIn, lineupBuyIn);
 
                 players.sort(function(a,b) {
 
                     return b.percentage - a.percentage;
                 });
 
-                if (calculateDailyBuyIn(lineups, lineupBuyIns) != items.dailyBuyInTarget) {
+                if (calculateDailyBuyIn(lineups, lineupBuyIn) != items.dailyBuyInTarget) {
 
                     errors.push('The daily buy in, $'+calculateDailyBuyIn(lineups)+', does not match the target, $'+items.dailyBuyInTarget+'.');
                 }

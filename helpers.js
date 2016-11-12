@@ -49,23 +49,23 @@ function processPlayer(players, name, position, lineup, playerPool, errors) {
     return player.errors;
 }
 
-function calculateDailyBuyIn(lineups, lineupBuyIns) {
+function calculateDailyBuyIn(lineups, lineupBuyIn) {
 
-    return lineups.length * lineupBuyIns[0];
+    return lineups.length * lineupBuyIn;
 }
 
-function addPercentagesToPlayers(players, lineups, dailyBuyIn) {
+function addPercentagesToPlayers(players, lineups, dailyBuyIn, lineupBuyIn) {
     
     for (var i = 0; i < players.length; i++) {
     
-        players[i].buyIn = getPlayerBuyIn(players[i], lineups);
+        players[i].buyIn = getPlayerBuyIn(players[i], lineups, lineupBuyIn);
 
         players[i].percentage = players[i].buyIn / dailyBuyIn * 100;
         players[i].percentage = players[i].percentage.toFixed(2);
     };
 }
 
-function getPlayerBuyIn(player, lineups) {
+function getPlayerBuyIn(player, lineups, lineupBuyIn) {
 
     var playerBuyIn = 0;
 
@@ -75,7 +75,7 @@ function getPlayerBuyIn(player, lineups) {
             
             if (lineups[i]['players'][n]['name'] === player['name']) {
 
-                playerBuyIn += lineups[i]['buyIn'] * lineups[i]['numOfEntries'];
+                playerBuyIn += lineupBuyIn * lineups[i]['numOfEntries'];
             }
         }
     }
