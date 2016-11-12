@@ -11,17 +11,6 @@ function saveOptions() {
 		lineupBuyIns[i] = parseFloat(document.getElementById('lineup-buy-in-'+i).value.trim());
 	}
 
-	var secondEventStacks = [];
-
-	for (var i = 0; i < 5; i++) {
-
-		var teamName = document.getElementById('team-'+i).value.trim();
-
-		var stack = new Stack(teamName);
-
-		secondEventStacks.push(stack);
-	}
-
 	var csvInput = $('textarea').val();
 
 	if (csvInput === '') {
@@ -45,19 +34,15 @@ function saveOptions() {
 
 	var showLineupsAfter = $('#show-lineups-after').val();
 
-	var lineupCheck = $('#lineup-check').val();
-
 	chrome.storage.local.set({
 	
 		dailyBuyInTarget: dailyBuyInTarget,
 		lineupBuyIns: lineupBuyIns,
-		secondEventStacks: secondEventStacks,
 		playerPool: playerPool,
 		csvInput: csvInput,
 		lineupsToShow: lineupsToShow,
 		showLineupsOnThisDate: showLineupsOnThisDate,
 		showLineupsAfter: showLineupsAfter,
-		lineupCheck: lineupCheck
 	
 	}, function() {
 	
@@ -74,25 +59,11 @@ function saveOptions() {
 			document.getElementById('lineup-buy-in-'+i).value = lineupBuyIns[i];
 		}
 
-		for (var i = 0; i < secondEventStacks.length; i++) {
-
-			var teamName = secondEventStacks[i]['team'];
-
-			if (teamName === 'undefined') {
-
-				teamName = '';
-			}
-
-			document.getElementById('team-'+i).value = teamName;
-		}
-
 		document.getElementById('lineups-to-show').value = lineupsToShow;
 
 		document.getElementById('show-lineups-on-this-date').value = showLineupsOnThisDate;
 
 		document.getElementById('show-lineups-after').value = showLineupsAfter;
-
-		document.getElementById('lineup-check').value = lineupCheck;
 
 		status.textContent = 'Options saved.';
 		setTimeout(function() {
@@ -108,14 +79,12 @@ function getOptions() {
 		
 		dailyBuyInTarget: 450, 
 		lineupBuyIns: [3, 27],
-		secondEventStacks: [],
 		playerPool: [],
 		csvInput: '',
 		lineupsToShow: 'upcoming-and-live',
 		lineupCheck: 'no',
 		showLineupsOnThisDate: '',
 		showLineupsAfter: '6:00 PM', 
-		batPlayers: []
 	
 	}, function(items) {
 
@@ -126,28 +95,6 @@ function getOptions() {
 			document.getElementById('lineup-buy-in-'+i).value = items.lineupBuyIns[i];
 		}
 
-		if (items.secondEventStacks.length === 0) {
-
-			for (var i = 0; i < 5; i++) {
-
-				document.getElementById('team-'+i).value = '';
-			}
-
-		} else {
-
-			for (var i = 0; i < items.secondEventStacks.length; i++) {
-
-				var teamName = items.secondEventStacks[i]['team'];
-
-				if (teamName === 'undefined') {
-
-					teamName = '';
-				}
-
-				document.getElementById('team-'+i).value = teamName;
-			}
-		}
-
 		document.getElementById('csv-input').value = items.csvInput;
 
 		document.getElementById('lineups-to-show').value = items.lineupsToShow;
@@ -155,14 +102,7 @@ function getOptions() {
 		document.getElementById('show-lineups-on-this-date').value = items.showLineupsOnThisDate;
 
 		document.getElementById('show-lineups-after').value = items.showLineupsAfter;
-
-		document.getElementById('lineup-check').value = items.lineupCheck;
 	});
-}
-
-function Stack(team) {
-
-	this.team = team;
 }
 
 document.addEventListener('DOMContentLoaded', getOptions);
