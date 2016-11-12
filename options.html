@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<script src="popup/js/jquery-1.11.3.min.js"></script>
+		<script src="popup/js/jquery-migrate-1.2.1.min.js"></script>
+		<script src="popup/js/jquery.csv.min.js"></script>
+
+		<title>My Test Extension Options</title>
+		<style>
+			body: { padding: 10px; }
+		</style>
+</head>
+
+<body>
+
+	<div id="status" style="margin-top: 10px"></div>
+	<button id="save" style="margin-top: 10px">Save</button>
+
+	<h3><strong>Daily Buy In Target</strong></h3>
+
+	Daily Buy In Target: <input type="number" name="daily-buy-in-target" id="daily-buy-in-target"><br>	
+
+	<h3><strong>Lineup Buy Ins</strong></h3>
+
+	Event 1: <input type="number" name="lineup-buy-in-0" id="lineup-buy-in-0"><br>
+	Event 2: <input type="number" name="lineup-buy-in-1" id="lineup-buy-in-1"><br>
+
+	<h3><strong>CSV Input</strong></h3>
+
+	<textarea id="csv-input" style="width: 500px; height: 100px"></textarea>
+
+	<h3><strong>Lineups to Show</strong></h3>
+
+	<select id="lineups-to-show">
+	  	<option value="upcoming-and-live">Upcoming and Live</option>
+	  	<option value="upcoming">Upcoming</option>
+	  	<option value="live">Live</option>
+	  	<option value="complete">Complete</option>
+	</select>
+
+	<h3><strong>Show Lineups on a Particular Date</strong></h3>
+
+	Show Lineups on This Date: <input type="text" name="show-lineups-on-this-date" id="show-lineups-on-this-date"><br>
+
+	Leave blank to show all dates. Format date like this '05/22/2016'.
+
+	<h3><strong>Show Lineups After a Particular Time</strong></h3>
+
+	Show Lineups After This Time: <input type="text" name="show-lineups-after" id="show-lineups-after"><br>
+
+	<h3>Check to See if Player is in the Team's Lineup</h3>
+
+	<select id="lineup-check">
+	  	<option value="yes">Yes</option>
+	  	<option value="no">No</option>
+	</select>
+
+	<h3><strong>Second Event Stacks</strong></h3>
+
+	Team 1: <input type="text" name="team-0" id="team-0"><br>
+	Team 2: <input type="text" name="team-1" id="team-1"><br>
+	Team 3: <input type="text" name="team-2" id="team-2"><br>
+	Team 4: <input type="text" name="team-3" id="team-3"><br>
+	Team 5: <input type="text" name="team-4" id="team-4"><br>
+
+	<script src="options.js"></script>
+
+</body>
+</html>
