@@ -8,13 +8,9 @@ chrome.runtime.onConnect.addListener(function(port) {
 
             chrome.storage.local.get(null, function(items) { // https://developer.chrome.com/extensions/storage#type-StorageArea
 
-                var batPlayers = items.batPlayers;
-
                 var lineups = [];
 
                 var players = [];
-
-                var stacks = [];
 
                 var errors = [];
 
@@ -23,16 +19,13 @@ chrome.runtime.onConnect.addListener(function(port) {
                 var showLineupsAfter = items.showLineupsAfter;
                 showLineupsAfter = new Date(Date.parse('2016/01/01 '+showLineupsAfter));
 
-                var lineupCheck = items.lineupCheck;
-
                 var lineupBuyIns = items.lineupBuyIns;
-
-                var secondEventStacks = items.secondEventStacks;
 
                 var selectorForLineupsToShow = getSelectorForLineupsToShow(items.lineupsToShow);
 
                 var playerPool = items.playerPool;
-                playerPool = addFptsToPlayerPool(playerPool, batPlayers);
+
+                console.log(items);
 
                 $(selectorForLineupsToShow).each(function() {
 
@@ -58,36 +51,14 @@ chrome.runtime.onConnect.addListener(function(port) {
 
                             var position = $(this).attr('data-pn').trim();
 
-                            if (position === 'P') {
-
-                                position = 'SP';
-                            }
-
-                            errors = processPlayer(players, name, position, lineup, playerPool, errors, lineupCheck);
+                            errors = processPlayer(players, name, position, lineup, playerPool, errors);
                         });
-
-                        errors = lineup.getStacks(errors);
-
-                        console.log(lineup);
-
-                        if (lineup.stacks.length === 1) {
-
-                            $(this).find('div.pmr span').text(lineup.stacks[0].team); 
-
-                        } else {
-
-                            var twoTeamStack = lineup.stacks[0].team+'/'+lineup.stacks[1].team;
-
-                            $(this).find('div.pmr span').text(twoTeamStack); 
-                        } 
-
-                        lineup.getBuyIn(secondEventStacks, lineupBuyIns);
-
-                        processStack(stacks, lineup);
 
                         lineups.push(lineup);
                     }
                 });
+
+                console.log(lineups);
 
                 lineups.sort(function(a,b) {
 
@@ -103,14 +74,7 @@ chrome.runtime.onConnect.addListener(function(port) {
                     return b.percentage - a.percentage;
                 });
 
-                addPercentagesToStacks(stacks, dailyBuyIn);
-
-                stacks.sort(function(a,b) {
-
-                    return b.percentage - a.percentage;
-                });
-
-                if (calculateDailyBuyIn(lineups) != items.dailyBuyInTarget) {
+                if (calculateDailyBuyIn(lineups, lineupBuyIns) != items.dailyBuyInTarget) {
 
                     errors.push('The daily buy in, $'+calculateDailyBuyIn(lineups)+', does not match the target, $'+items.dailyBuyInTarget+'.');
                 }
@@ -122,7 +86,6 @@ chrome.runtime.onConnect.addListener(function(port) {
 
                         lineups: lineups, 
                         players: players, 
-                        stacks: stacks,
                         dailyBuyIn: dailyBuyIn,
                         errors: errors
                     }
