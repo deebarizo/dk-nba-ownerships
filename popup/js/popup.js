@@ -19,8 +19,6 @@ chrome.runtime.onConnect.addListener(function(port){
 
             showErrors(data['errors']);
 
-            drawStacksChart(data['stacks']);
-
             drawPlayersChart(data['players']);
         }
     });
@@ -45,77 +43,6 @@ function showErrors(errors) {
 
     $('div#errors').html(htmlErrorMessages);
 }
-
-function drawStacksChart(stacks) {
-
-    var chartStacks = [];
-    var percentages = [];
-
-    for (var i = 0; i < stacks.length; i++) {
-
-        chartStacks.push(stacks[i].team);
-        percentages.push({
-            y: parseFloat(stacks[i].percentage),
-            val: parseInt(stacks[i].numOfEntries)
-        });
-    };
-
-    var series = [      
-
-        { data: percentages }
-    ];
-
-    $('#stack-percentages-container').highcharts({
-        chart: {
-            type: 'bar'
-        },
-        title: {
-            text: null
-        },
-        xAxis: {
-            categories: chartStacks
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: 'Percentage'
-            },
-            max: 100
-        },
-        tooltip: {
-            formatter: function() {
-                return 'Number of Entries: '+this.point.val;
-            }
-        },
-        plotOptions: {
-            bar: {
-                dataLabels: {
-                    enabled: true
-                }
-            },
-            series: {
-                states: {
-                    hover: {
-                        enabled: false
-                    }
-                },
-                dataLabels:{
-                    enabled:true,
-                    formatter: function() {
-                        return this.y +'%';
-                    }
-                }
-            }
-        },
-        credits: {
-            enabled: false
-        },
-        series: series,
-        legend: {
-            enabled: false
-        }
-    }); 
-}   
 
 function drawPlayersChart(players) {
 
@@ -143,7 +70,7 @@ function drawPlayersChart(players) {
 
                 if (players[i]['position'] !== 'SP' && players[i]['position'] !== 'RP') {
 
-                    chartPlayers.push(players[i]['name']);
+                    chartPlayers.push(players[i]['name']+' '+players[i]['position']);
                     percentages.push(parseFloat(players[i]['percentage']));
                 }
             }    

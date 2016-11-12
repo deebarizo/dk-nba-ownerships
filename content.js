@@ -58,9 +58,6 @@ chrome.runtime.onConnect.addListener(function(port) {
                     }
                 });
 
-                console.log(lineups);
-                console.log(players);
-
                 lineups.sort(function(a,b) {
 
                     return a.fpts - b.fpts;
@@ -68,7 +65,7 @@ chrome.runtime.onConnect.addListener(function(port) {
 
                 var dailyBuyIn = items.dailyBuyInTarget;
 
-                addPercentagesToPlayers(players, lineups, dailyBuyIn, lineupBuyIn);
+                addPercentagesToPlayers(players, lineups, dailyBuyIn, lineupBuyIn, playerPool);
 
                 players.sort(function(a,b) {
 
@@ -79,6 +76,8 @@ chrome.runtime.onConnect.addListener(function(port) {
 
                     errors.push('The daily buy in, $'+calculateDailyBuyIn(lineups)+', does not match the target, $'+items.dailyBuyInTarget+'.');
                 }
+
+                console.log(players);
 
                 contentPort.postMessage({ 
 

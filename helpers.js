@@ -54,7 +54,7 @@ function calculateDailyBuyIn(lineups, lineupBuyIn) {
     return lineups.length * lineupBuyIn;
 }
 
-function addPercentagesToPlayers(players, lineups, dailyBuyIn, lineupBuyIn) {
+function addPercentagesToPlayers(players, lineups, dailyBuyIn, lineupBuyIn, playerPool) {
     
     for (var i = 0; i < players.length; i++) {
     
@@ -62,7 +62,20 @@ function addPercentagesToPlayers(players, lineups, dailyBuyIn, lineupBuyIn) {
 
         players[i].percentage = players[i].buyIn / dailyBuyIn * 100;
         players[i].percentage = players[i].percentage.toFixed(2);
+
+        players[i].position = getPlayerPosition(players[i], playerPool);
     };
+}
+
+function getPlayerPosition(player, playerPool) {
+
+    for (var i = 0; i < playerPool.length; i++) {
+        
+        if (player['name'] === playerPool[i]['Name']) {
+
+            return playerPool[i]['Position'];
+        }
+    }
 }
 
 function getPlayerBuyIn(player, lineups, lineupBuyIn) {
