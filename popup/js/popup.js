@@ -20,9 +20,23 @@ chrome.runtime.onConnect.addListener(function(port){
             showErrors(data['errors']);
 
             drawPlayersChart(data['players']);
+
+            createTextVersion(data['players']);
         }
     });
 });
+
+function createTextVersion(players) {
+
+    var htmlText = '';
+
+    for (var i = 0; i < players.length; i++) {
+        
+        htmlText += '<p>'+players[i].name+' ('+players[i].position+'): '+players[i].percentage+'%</p>';
+    }
+
+    $('div#text-version').html(htmlText);
+}
 
 
 function showErrors(errors) {

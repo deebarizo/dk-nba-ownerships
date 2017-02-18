@@ -74,7 +74,7 @@ chrome.runtime.onConnect.addListener(function(port) {
 
                 if (calculateDailyBuyIn(lineups, lineupBuyIn) != items.dailyBuyInTarget) {
 
-                    errors.push('The daily buy in, $'+calculateDailyBuyIn(lineups)+', does not match the target, $'+items.dailyBuyInTarget+'.');
+                    errors.push('The daily buy in, $'+calculateDailyBuyIn(lineups)+', does not match the target, $'+items.dailyBuyInTarget+'. This matching check does not work until every lineup is unique.');
                 }
 
                 console.log(players);
